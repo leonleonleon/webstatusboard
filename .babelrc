@@ -1,0 +1,19 @@
+{
+    "presets" : [
+        [
+            "env", {
+                "targets": {
+                    "browsers": [ "last 2 versions" ],
+                    "modules" : false,
+                    "node" : true,
+                    "useBuiltIns":"usage"
+                }
+            }
+        ],
+        "react"
+    ],
+    "plugins" : [
+        "syntax-dynamic-import",
+        [ "transform-class-properties" ]
+    ]
+}
