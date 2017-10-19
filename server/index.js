@@ -10,7 +10,7 @@ const staticPath = path.resolve( __dirname, '../dist' );
 
 const jsonPath = `${staticPath}/Settings.json`;
 
-let settings = '';
+let settings = {};
 
 // Server and routing stuff
 
@@ -78,6 +78,7 @@ app.post( '/addSite', ( req, res, next ) => {
     res.header( 'Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept' );
 
     if ( req.body != undefined ) {
+        console.log( 'settings', settings ); // eslint-disable-line
 
         const newSettings = settings;
         const newSite = req.body;
