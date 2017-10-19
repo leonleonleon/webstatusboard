@@ -1,5 +1,5 @@
-# react-boilerplate
-Basic React Boilerplate brought to you by #0
+# webstatusboard
+Basic Website Status Monitor brought to you by #0
 
 ```
 npm -i
