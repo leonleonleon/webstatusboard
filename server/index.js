@@ -145,13 +145,16 @@ app.post( '/removeSite', ( req, res, next ) => {
 
         const removeSite = req.body;
 
-        const array = app.locals.settings.sites;
+        const newSettings = app.locals.settings;
 
-        const newSites = array.filter( ( site ) => {
+        console.log( 'before', newSettings );
+
+        newSettings.sites = newSettings.sites.filter( ( site ) => {
             return site.name != removeSite.name && site.url != removeSite.url;
         } );
 
-        const newSettings = { sites : newSites };
+        console.log( 'before', newSettings );
+
 
         fs.writeFile( jsonPath, JSON.stringify( newSettings ), ( err ) => {
             if ( err ) {
