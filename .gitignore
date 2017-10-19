@@ -3,3 +3,4 @@ node_modules
 prod
 !prod/index.html
 coverage/**
+Settings.json

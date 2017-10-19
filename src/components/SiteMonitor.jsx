@@ -8,7 +8,8 @@ import styles from './App.css';
  */
 export default class SiteMonitor extends Component {
     static propTypes = {
-        url : PropTypes.string,
+        site   : PropTypes.object,
+        remove : PropTypes.func,
     };
     state = {
         loading : true,
@@ -27,12 +28,12 @@ export default class SiteMonitor extends Component {
     componentDidUpdate() {
         const { result } = this.state;
         if ( result === null ) this.checkStatus();
-        else setTimeout( () => {
-            this.setState( {
-                result  : null,
-                loading : true,
-            } );
-        }, 30000 );
+        // else setTimeout( () => {
+        //     this.setState( {
+        //         result  : null,
+        //         loading : true,
+        //     } );
+        // }, 30000 );
     }
     /**
      * checkForWordpress
@@ -55,11 +56,11 @@ export default class SiteMonitor extends Component {
     }
 
     /**
-     * handleSubmit
+     * checkStatus
      *
      */
     checkStatus = ( ) => {
-        const { url } = this.props;
+        const { site } = this.props;
         const headers = new Headers();
 
         const config = {
@@ -68,11 +69,11 @@ export default class SiteMonitor extends Component {
             mode    : 'cors',
         };
 
-        let fullurl = `/getstatus/${url}`;
+        let fullurl = `/getstatus/${site.url}`;
 
         if ( !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ) {
             // dev code
-            fullurl = `http://localhost:3000/getstatus/${url}`;
+            fullurl = `http://localhost:3000/getstatus/${site.url}`;
         }
 
 
@@ -83,7 +84,8 @@ export default class SiteMonitor extends Component {
 
 
                     const result = {
-                        url       : url,
+                        url       : site.url,
+                        name      : site.name,
                         status    : resp.request.statusCode,
                         body      : resp.request.body,
                         date      : resp.request.headers.date,
@@ -106,11 +108,11 @@ export default class SiteMonitor extends Component {
      */
     render() {
         const { loading, result } = this.state;
-        const { url } = this.props;
+        const { site } = this.props;
 
         if ( loading ) {
             return <div className={ styles.SiteMonitor }>
-                <div>requesting { url }...</div>
+                <div>requesting { site.url }...</div>
             </div>;
         }
 
@@ -123,21 +125,31 @@ export default class SiteMonitor extends Component {
         const date = new Date( result.date ).toLocaleTimeString();
 
         return (
-            <div
-                className={ styles.SiteMonitor }
-                onClick={ () => {
-                    this.setState( {
-                        loading : true,
-                        result  : null,
-                    } );
-                } }
-            >
+            <div className={ styles.SiteMonitor } >
                 <div className={ styles.Result }>
-                    <h2>{ result.url }</h2>
+                    <div className={ styles.ResultHead }>
+                        <h2>{ result.name }</h2>
+                        { result.url }
+                    </div>
                     status&nbsp;&nbsp;&nbsp;: <span className={ colorClass }>{ status }</span><br />
                     checked&nbsp;&nbsp;: { date } <br />
                     duration&nbsp;: { result.duration } ms
                     <div className={ styles.Wordpress }>{ wordpress }</div>
+                    <div className={ styles.SiteMonitorMenu }>
+                        <div
+                            className={ styles.Button }
+                            onClick={ () => this.props.remove( site ) }
+                        >remove</div>
+                        <div
+                            className={ styles.Button }
+                            onClick={  () => {
+                                this.setState( {
+                                    loading : true,
+                                    result  : null,
+                                } );
+                            }  }
+                        >refresh</div>
+                    </div>
                 </div>
             </div>
         );

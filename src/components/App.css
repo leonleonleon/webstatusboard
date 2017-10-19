@@ -68,7 +68,36 @@ body {
     display: flex;
     flex-wrap: wrap;
 }
-.SiteMonitor {
+
+.Menu {
+    margin: 0.5rem;
+    padding: 1.5rem;
+    background-color: #eee;
+    color: #666;
+    font-size: 1rem;
+    width: calc( 100% - 4rem );
+    border-radius: 1rem;
+
+    line-height: 1.5rem;
+
+    display: flex;
+    justify-content: space-between;
+}
+.MenuButton {
+    cursor: pointer;
+    display: inline-block;
+    align-self: flex-end;
+}
+.MenuButton:hover {
+    opacity: 0.5;
+}
+.Logo {
+    font-weight: bold;
+    display: inline-block;
+    align-self: flex-start;
+}
+
+.Form {
     margin: 0.5rem;
     padding: 1.5rem;
     background-color: #eee;
@@ -79,13 +108,36 @@ body {
     border-radius: 1rem;
 
     line-height: 1.5rem;
+}
 
-    cursor: pointer;
+.SiteMonitor {
+    position: relative;
+    margin: 0.5rem;
+    padding: 1.5rem;
+    background-color: #eee;
+    color: #666;
+    font-size: 0.75rem;
+    width: calc( 100% - 4rem );
+    min-height: 9rem;
+    border-radius: 1rem;
+
+    line-height: 1.5rem;
     /* align-self: center; */
 
 }
-.SiteMonitor:hover {
-    opacity: 0.75;
+.SiteMonitorMenu {
+    position: absolute;
+    top: 1.5rem;
+    right: 1rem;
+    text-align: right;
+}
+
+.Button {
+    cursor: pointer;
+    text-transform: uppercase;
+}
+.Button:hover {
+    opacity: 0.5;
 }
 @media screen and (min-width: 568px) {
     .SiteMonitor {
@@ -105,11 +157,16 @@ body {
     font-size: 0.5rem;
     line-height: 0.75rem;
 }
-.SiteMonitor h2 {
+.ResultHead h2 {
     font-weight: bold;
-    margin-bottom: 1rem;
     color: #333;
     font-size: 1rem;
+}
+.ResultHead {
+    font-weight: lighter;
+    margin-bottom: 1rem;
+    font-size: 0.75rem;
+    font-style: italic;
 }
 .Red {
     color: #eee;
