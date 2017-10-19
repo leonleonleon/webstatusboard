@@ -35,7 +35,7 @@ fs.stat( jsonPath,  ( err, stats ) => {
             if ( err ) {
                 console.log( err );  // eslint-disable-line
             }
-
+            app.locals.settings = JSON.parse( defaultJson );
             console.log( `${jsonPath} created!\n` );  // eslint-disable-line
         } );
     } else {
