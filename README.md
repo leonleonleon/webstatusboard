@@ -3,7 +3,8 @@ Basic React Boilerplate brought to you by #0
 
 ```
 npm -i
-npm run dev
+npm run build
+npm start
 ```
 
-or just see: [https://hashtag0-react-boilerplate.herokuapp.com](https://hashtag0-react-boilerplate.herokuapp.com)
+or just see: [https://webstatusboard.herokuapp.com](https://webstatusboard.herokuapp.com)
