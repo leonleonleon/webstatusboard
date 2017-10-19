@@ -30,7 +30,7 @@ fs.stat( jsonPath,  ( err, stats ) => {
                 url  : 'google.de',
             } ],
         };
-        app.locals.settings = JSON.parse( defaultJson );
+        app.locals.settings = defaultJson;
         fs.writeFile( jsonPath, JSON.stringify( defaultJson ), ( err ) => {
             if ( err ) {
                 console.log( err );  // eslint-disable-line
