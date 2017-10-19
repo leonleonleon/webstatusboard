@@ -29,6 +29,10 @@ module.exports = {
                 include : SRC_DIR,
             },
             {
+                test    : /\.json$/,
+                use     : 'json-loader',
+            },
+            {
                 test    : /\.css$/i,
                 include : SRC_DIR,
                 use     : [ {

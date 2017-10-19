@@ -21,16 +21,24 @@ const port = process.env.PORT || 3000;
 app.get( '/getstatus/:url', ( req, res, next ) => {
     const url = `http://${req.params.url}`;
 
+    const startRequest = Date.now();
+
     // Comment out this line:
     //res.send('respond with a resource');
     request( url, ( err, response, body ) => {
-        if ( err || response.statusCode !== 200 ) {
-            return res.sendStatus( 500 );
-        }
+        // if ( err || response.statusCode !== 200 ) {
+        //     return res.sendStatus( 500 );
+        // }
+        const endRequest = Date.now();
+
+        const passedTime = endRequest - startRequest;
+
+        const safeResp = response === undefined ? err : response;
         res.json( {
-            'url'     : url,
-            'params'  : req.params,
-            'request' : response,
+            'url'      : url,
+            'duration' : passedTime,
+            'params'   : req.params,
+            'request'  : safeResp,
         } );
     } );
     // And insert something like this instead:
