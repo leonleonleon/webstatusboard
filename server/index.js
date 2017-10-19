@@ -10,6 +10,39 @@ const staticPath = path.resolve( __dirname, '../dist' );
 
 const jsonPath = `${staticPath}/Settings.json`;
 
+// Check for Settings.json on Start
+
+fs.stat( jsonPath,  ( err, stats ) => {
+
+    // If File does not exist -> create!
+    if ( stats === undefined ) {
+
+        console.log( `Couldnt find ${jsonPath}\n` );  // eslint-disable-line
+
+        const defaultJson = {
+            user  : '#0',
+            sites : [ {
+                name : 'Google',
+                url  : 'google.de',
+            } ],
+        };
+
+        fs.writeFile( jsonPath, JSON.stringify( defaultJson ), ( err ) => {
+            if ( err ) {
+                console.log( err );  // eslint-disable-line
+            }
+
+            console.log( `${jsonPath} created!\n` );  // eslint-disable-line
+        } );
+    } else {
+        // IF exists -> Read and safe in settings
+        fs.readFile( jsonPath, 'utf8', ( err, data ) => {
+            if ( err ) throw err;
+            app.locals.settings = JSON.parse( data );
+        } );
+    }
+} );
+
 // Server and routing stuff
 
 app.use( express.static( staticPath ) );
@@ -137,36 +170,3 @@ app.listen( port, () => {
     console.log( `Example app listening on port ${port}!\n` ); // eslint-disable-line
 } );
 
-
-// Check for Settings.json on Start
-
-fs.stat( jsonPath,  ( err, stats ) => {
-
-    // If File does not exist -> create!
-    if ( stats === undefined ) {
-
-        console.log( `Couldnt find ${jsonPath}\n` );  // eslint-disable-line
-
-        const defaultJson = {
-            user  : '#0',
-            sites : [ {
-                name : 'Google',
-                url  : 'google.de',
-            } ],
-        };
-
-        fs.writeFile( jsonPath, JSON.stringify( defaultJson ), ( err ) => {
-            if ( err ) {
-                console.log( err );  // eslint-disable-line
-            }
-
-            console.log( `${jsonPath} created!\n` );  // eslint-disable-line
-        } );
-    } else {
-        // IF exists -> Read and safe in settings
-        fs.readFile( jsonPath, 'utf8', ( err, data ) => {
-            if ( err ) throw err;
-            app.locals.settings = JSON.parse( data );
-        } );
-    }
-} );
