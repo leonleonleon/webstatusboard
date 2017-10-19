@@ -10,6 +10,10 @@ const staticPath = path.resolve( __dirname, '../dist' );
 
 const jsonPath = `${staticPath}/Settings.json`;
 
+app.locals = {
+    settings : {},
+};
+
 // Check for Settings.json on Start
 
 fs.stat( jsonPath,  ( err, stats ) => {
@@ -39,6 +43,7 @@ fs.stat( jsonPath,  ( err, stats ) => {
         fs.readFile( jsonPath, 'utf8', ( err, data ) => {
             if ( err ) throw err;
             app.locals.settings = JSON.parse( data );
+            console.log( 'added to locals' );
         } );
     }
 } );
