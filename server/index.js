@@ -10,8 +10,6 @@ const staticPath = path.resolve( __dirname, '../dist' );
 
 const jsonPath = `${staticPath}/Settings.json`;
 
-let settings = {};
-
 // Server and routing stuff
 
 app.use( express.static( staticPath ) );
@@ -64,7 +62,7 @@ app.get( '/loadSettings', ( req, res, next ) => {
 
     fs.readFile( jsonPath, 'utf8', ( err, data ) => {
         if ( err ) {
-            console.log( err );
+            console.log( err ); // eslint-disable-line
         }
         console.log( `serving ${jsonPath}\n` ); // eslint-disable-line
         res.send( data );
@@ -78,9 +76,9 @@ app.post( '/addSite', ( req, res, next ) => {
     res.header( 'Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept' );
 
     if ( req.body != undefined ) {
-        console.log( 'settings', settings ); // eslint-disable-line
+        console.log( 'settings', app.locals.settings ); // eslint-disable-line
 
-        const newSettings = settings;
+        const newSettings = app.locals.settings;
         const newSite = req.body;
 
         newSettings.sites.push( newSite );
@@ -109,7 +107,7 @@ app.post( '/removeSite', ( req, res, next ) => {
 
         const removeSite = req.body;
 
-        const array = settings.sites;
+        const array = app.locals.settings.sites;
 
         const newSites = array.filter( ( site ) => {
             return site.name != removeSite.name && site.url != removeSite.url;
@@ -168,7 +166,7 @@ fs.stat( jsonPath,  ( err, stats ) => {
         // IF exists -> Read and safe in settings
         fs.readFile( jsonPath, 'utf8', ( err, data ) => {
             if ( err ) throw err;
-            settings = JSON.parse( data );
+            app.locals.settings = JSON.parse( data );
         } );
     }
 } );
