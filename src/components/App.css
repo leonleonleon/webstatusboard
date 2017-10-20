@@ -136,6 +136,9 @@ body {
     /* align-self: center; */
 
 }
+.SiteMonitor img {
+    max-width: 100%;
+}
 .SiteMonitorMenu {
     position: absolute;
     top: 1.5rem;
