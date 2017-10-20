@@ -188,7 +188,11 @@ export default class App extends Component {
                     </div>
                     <div
                         className={ styles.MenuButton }
-                        onClick={ () => { this.setState( { location : 'add' } ); } }
+                        onClick={ () => {
+                            const loc = this.state.location;
+                            if ( loc != 'add' ) this.setState( { location : 'add' } );
+                            else this.setState( { location : 'default' } );
+                        } }
                     >
                         Add Site
                     </div>
