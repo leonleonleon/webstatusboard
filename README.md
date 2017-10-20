@@ -7,4 +7,6 @@ npm run build
 npm start
 ```
 
+thank you leif
+
 or just see: [https://webstatusboard.herokuapp.com](https://webstatusboard.herokuapp.com)
