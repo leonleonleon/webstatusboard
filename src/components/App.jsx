@@ -170,14 +170,6 @@ export default class App extends Component {
             </div>;
         }
 
-        if ( location === 'add' ) {
-            return (
-                <div className={ styles.App }>
-                    <AddSite addSite={ this.addSite } />
-                </div>
-            );
-        }
-
         const sites = settings.sites;
 
         const sitesElements = sites.map( ( item, index ) => {
@@ -201,6 +193,7 @@ export default class App extends Component {
                         Add Site
                     </div>
                 </div>
+                <AddSite addSite={ this.addSite }  location={ location } />
                 { sitesElements }
             </div>
         );

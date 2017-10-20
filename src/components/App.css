@@ -102,14 +102,22 @@ body {
     padding: 1.5rem;
     background-color: #eee;
     color: #666;
-    font-size: 0.75rem;
     width: calc( 100% - 4rem );
-    min-height: 9rem;
     border-radius: 1rem;
 
     line-height: 1.5rem;
 }
 
+.Submit {
+    border: 1px solid #333;
+    padding: 0.25rem;
+    margin: 0;
+    background: none;
+    cursor: pointer;
+}
+.Submit:hover {
+    opacity: 0.5;
+}
 .SiteMonitor {
     position: relative;
     margin: 0.5rem;

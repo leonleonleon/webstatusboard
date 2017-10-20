@@ -8,10 +8,12 @@ import styles from './App.css';
 export default class AddSite extends Component {
     static propTypes = {
         addSite     : PropTypes.func,
+        location    : PropTypes.string,
     };
     state = {
         name : '',
         url  : '',
+        last : 'name',
     }
     /**
      * handleChange
@@ -21,10 +23,12 @@ export default class AddSite extends Component {
         // this.setState( { value : event.target.value } );
         const target = event.target;
         const value = target.value;
-        const name = target.name;
+        const name = target.name === 'username' ? 'name' : 'name';
+        const last = target.name;
 
         this.setState( {
             [ name ] : value,
+            last     : last,
         } );
     }
     /**
@@ -33,7 +37,9 @@ export default class AddSite extends Component {
      */
     handleSubmit = ( event ) => {
         event.preventDefault();
-        const { name, url } = this.state;
+
+        const name = event.target.username.value;
+        const url = event.target.url.value;
 
         if ( name.length > 0 && url.length > 0 ) {
             const newSite = {
@@ -44,27 +50,42 @@ export default class AddSite extends Component {
         }
     }
     /**
+     * component did mount
+     */
+    componentDidUpdate() {
+        // console.log( 'update' );
+        // const { last } = this.state;
+        // if ( last === 'name' ) this.nameInput.focus();
+        // else this.urlInput.focus();
+    }
+    /**
      * render
      * @return {jsx} element
      */
     render() {
+        const { location } = this.props;
+        // const { last } = this.state;
+
+        if ( location != 'add' ) return null;
+
+        // const lastInput = document.getElementsByName( last )[ 0 ];
+        // if ( lastInput != undefined ) lastInput.focus();
+
         return (
-            <form onSubmit={ this.handleSubmit } className={ styles.Form }>
-                <label>
-                    name : <input
-                        type="text"
-                        name="name"
-                        value={ this.state.name }
-                        onChange={ this.handleChange }
-                    /><br />
-                    url :&nbsp;&nbsp;<input
-                        type="text"
-                        name="url"
-                        value={ this.state.url }
-                        onChange={ this.handleChange }
-                    /><br />
-                </label>
-                <input type="submit" value="Submit" />
+            <form onSubmit={ this.handleSubmit } className={ styles.Form } key="addForm">
+                name : <input
+                    id="NameInput"
+                    key="inputName"
+                    type="text"
+                    name="username"
+                />
+                &nbsp;url : <input
+                    id="UrlInput"
+                    key="inputUrl"
+                    type="text"
+                    name="url"
+                />
+                &nbsp;<input type="submit" value="add" className={ styles.Submit } />
             </form>
         );
     }
