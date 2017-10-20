@@ -73,19 +73,25 @@ export default class AddSite extends Component {
 
         return (
             <form onSubmit={ this.handleSubmit } className={ styles.Form } key="addForm">
-                name : <input
-                    id="NameInput"
-                    key="inputName"
-                    type="text"
-                    name="username"
-                />
-                &nbsp;url : <input
-                    id="UrlInput"
-                    key="inputUrl"
-                    type="text"
-                    name="url"
-                />
-                &nbsp;<input type="submit" value="add" className={ styles.Submit } />
+                <span>
+                    name : <input
+                        id="NameInput"
+                        key="inputName"
+                        type="text"
+                        name="username"
+                    />
+                </span>
+                <span>
+                    &nbsp;url : <input
+                        id="UrlInput"
+                        key="inputUrl"
+                        type="text"
+                        name="url"
+                    />
+                </span>
+                <span>
+                    &nbsp;<input type="submit" value="add" className={ styles.Submit } />
+                </span>
             </form>
         );
     }

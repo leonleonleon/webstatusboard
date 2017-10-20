@@ -107,13 +107,16 @@ body {
 
     line-height: 1.5rem;
 }
-
+.Form span {
+    display: inline-block;
+}
 .Submit {
     border: 1px solid #333;
     padding: 0.25rem;
-    margin: 0;
+    margin: 0 auto;
     background: none;
     cursor: pointer;
+    display: inline-block;
 }
 .Submit:hover {
     opacity: 0.5;
