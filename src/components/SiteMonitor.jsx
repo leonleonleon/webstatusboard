@@ -131,9 +131,6 @@ export default class SiteMonitor extends Component {
                         <h2>{ result.name }</h2>
                         { result.url }
                     </div>
-                    <img
-                        src={ `https://leifs-screenshot.herokuapp.com/?url=http://${result.url}` }
-                    />
                     status&nbsp;&nbsp;&nbsp;: <span className={ colorClass }>{ status }</span><br />
                     checked&nbsp;&nbsp;: { date } <br />
                     duration&nbsp;: { result.duration } ms

@@ -1,52 +1,27 @@
 const path          = require( 'path' );
 const express       = require( 'express' );
 const request       = require( 'request' );
-const fs            = require( 'fs' );
+// const fs            = require( 'fs' );
+const low           = require( 'lowdb' );
+const FileSync      = require( 'lowdb/adapters/FileSync' );
 const bodyParser    = require( 'body-parser' );
 
 const app           = express();
 
 const staticPath = path.resolve( __dirname, '../dist' );
 
-const jsonPath = `${staticPath}/Settings.json`;
+// const jsonPath = `${staticPath}/Settings.json`;
 
-app.locals = {
-    settings : {},
-};
+// Json DB setup
+const adapter = new FileSync( 'db.json' );
+const db = low( adapter );
 
-// Check for Settings.json on Start
-
-fs.stat( jsonPath,  ( err, stats ) => {
-
-    // If File does not exist -> create!
-    if ( stats === undefined ) {
-
-        console.log( `Couldnt find ${jsonPath}\n` );  // eslint-disable-line
-
-        const defaultJson = {
-            user  : '#0',
-            sites : [ {
-                name : 'Google',
-                url  : 'google.de',
-            } ],
-        };
-        app.locals.settings = defaultJson;
-        fs.writeFile( jsonPath, JSON.stringify( defaultJson ), ( err ) => {
-            if ( err ) {
-                console.log( err );  // eslint-disable-line
-            }
-
-            console.log( `${jsonPath} created!\n` );  // eslint-disable-line
-        } );
-    } else {
-        // IF exists -> Read and safe in settings
-        fs.readFile( jsonPath, 'utf8', ( err, data ) => {
-            if ( err ) throw err;
-            app.locals.settings = JSON.parse( data );
-            console.log( 'added to locals' );
-        } );
-    }
-} );
+db.defaults( {
+    'user'  : '#0',
+    'sites' : [ {
+        'name' : 'Google',
+        'url'  : 'google.de',
+    } ] } ).write();
 
 // Server and routing stuff
 
@@ -98,13 +73,7 @@ app.get( '/loadSettings', ( req, res, next ) => {
     res.header( 'Access-Control-Allow-Origin', '*' );
     res.header( 'Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept' );
 
-    fs.readFile( jsonPath, 'utf8', ( err, data ) => {
-        if ( err ) {
-            console.log( err ); // eslint-disable-line
-        }
-        console.log( `serving ${jsonPath}\n` ); // eslint-disable-line
-        res.send( data );
-    } );
+    res.json( db );
 } );
 
 // Add Site
@@ -116,18 +85,12 @@ app.post( '/addSite', ( req, res, next ) => {
     if ( req.body != undefined ) {
         console.log( 'settings', app.locals.settings ); // eslint-disable-line
 
-        const newSettings = app.locals.settings;
         const newSite = req.body;
 
-        newSettings.sites.push( newSite );
+        db.get( 'sites' )
+            .push( newSite )
+            .write( );
 
-        fs.writeFile( jsonPath, JSON.stringify( newSettings ), ( err ) => {
-            if ( err ) {
-                console.log( err );  // eslint-disable-line
-            }
-
-            console.log( `${jsonPath} updated!\n` );  // eslint-disable-line
-        } );
         res.json( { status : 'recieved data' } );
     } else {
         res.json( { status : 'error' } );
@@ -145,24 +108,9 @@ app.post( '/removeSite', ( req, res, next ) => {
 
         const removeSite = req.body;
 
-        const newSettings = app.locals.settings;
-
-        console.log( 'before', newSettings );
-
-        newSettings.sites = newSettings.sites.filter( ( site ) => {
-            return site.name != removeSite.name && site.url != removeSite.url;
-        } );
-
-        console.log( 'before', newSettings );
-
-
-        fs.writeFile( jsonPath, JSON.stringify( newSettings ), ( err ) => {
-            if ( err ) {
-                console.log( err );  // eslint-disable-line
-            }
-            console.log( `${removeSite.name} deleted!\n` );  // eslint-disable-line
-            console.log( `${jsonPath} updated!\n` );  // eslint-disable-line
-        } );
+        db.get( 'sites' )
+            .remove( { url : removeSite.url } )
+            .write( );
         res.json( { status : 'recieved data' } );
     } else {
         res.json( { status : 'error' } );
